@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Binary machine learning model artifacts (reproducible via `python pipeline.py train --all`)
+models/*.joblib
+*.joblib
+*.pkl
+
+# Generated static dashboard HTML builds
+data/board.html
+data/console.html
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Secrets & local environment variables
+.env

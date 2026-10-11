@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GLOF // Triage Board</title>
+<style>
+:root{
+  --bg:#0b0f14; --panel:#111821; --panel2:#151e29; --line:#223042; --line2:#2d3f55;
+  --text:#dbe6f0; --dim:#8296a8; --dimmer:#566a7d;
+  --alert:#ff5470; --watch:#f5b83d; --regional:#4fb3c8; --clear:#2f8f6b; --nodata:#6b7b8a; --mint:#4be0a0; --blue:#6ea8ff;
+  --mono: ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+  --sans: "Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px}
+body{padding:16px 20px 40px;max-width:1560px;margin:0 auto}
+.lbl{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dimmer)}
+h1{margin:0;font-size:19px;letter-spacing:.06em}
+h1 b{color:var(--mint)}
+.top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end}
+.sub{color:var(--dim);margin-top:5px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.pill{font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:999px;border:1px solid var(--line2);color:var(--dim);background:var(--panel)}
+.pill.warn{color:var(--watch);border-color:#6b5420}
+.pill.reg{color:var(--regional);border-color:#235a66}
+.bar{position:sticky;top:0;z-index:10;display:flex;gap:12px;align-items:center;background:rgba(11,15,20,.94);backdrop-filter:blur(4px);padding:10px 0;margin-top:10px;border-bottom:1px solid var(--line)}
+.bar .d{font-family:var(--mono);font-size:16px;min-width:130px}
+.btn{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--text);background:var(--panel2);border:1px solid var(--line2);padding:6px 12px;border-radius:5px;cursor:pointer}
+.btn:hover{border-color:var(--mint)} .btn.on{border-color:var(--mint);color:var(--mint)}
+input[type=range]{flex:1;accent-color:var(--mint)}
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:14px 0}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px;border-top:3px solid var(--line2)}
+.tile .v{font-family:var(--mono);font-size:26px;font-weight:600;margin:4px 0 2px}
+.tile .s{color:var(--dim);font-size:11px}
+.cols{display:grid;grid-template-columns:minmax(330px,.85fr) 1.4fr;gap:16px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;min-width:0}
+.card>.hd{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.card>.hd h2{margin:0;font-size:12px;letter-spacing:.14em;font-family:var(--mono);font-weight:600}
+.queue{max-height:760px;overflow:auto;padding:10px}
+.qc{border:1px solid var(--line);border-left:4px solid var(--line2);border-radius:6px;background:var(--panel2);padding:11px 12px;margin-bottom:10px}
+.qc.ALERT{border-left-color:var(--alert)} .qc.WATCH{border-left-color:var(--watch)} .qc.sel{outline:1px solid var(--mint)}
+.qc h3{margin:0;font-size:14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;padding:2px 7px;border-radius:3px;border:1px solid}
+.tag.ALERT{color:var(--alert);border-color:#7a2a3a;background:#2a1018}
+.tag.WATCH{color:var(--watch);border-color:#6b5420;background:#261d0a}
+.tag.REGIONAL{color:var(--regional);border-color:#235a66;background:#0d242b}
+.tag.CLEAR{color:var(--clear);border-color:#1f5b45}
+.tag.NODATA{color:var(--nodata);border-color:#44525f}
+.tag.conf-high{color:var(--mint);border-color:#1f5b45} .tag.conf-medium{color:var(--watch);border-color:#6b5420} .tag.conf-low{color:var(--alert);border-color:#7a2a3a}
+.tag.n{color:var(--dim);border-color:var(--line2)}
+.reg{color:var(--dim);font-size:11.5px;margin-top:3px}
+ul.why{margin:8px 0 6px 16px;padding:0;color:#c3d1de;line-height:1.5}
+ul.why li{margin:2px 0}
+.peer{position:relative;height:20px;margin:10px 0 4px}
+.peer .axis{position:absolute;left:0;right:0;top:9px;height:2px;background:var(--line2)}
+.peer .iqr{position:absolute;top:5px;height:10px;background:rgba(110,168,255,.22);border-radius:2px}
+.peer .med{position:absolute;top:3px;width:2px;height:14px;background:var(--blue)}
+.peer .dot{position:absolute;top:3px;width:14px;height:14px;border-radius:50%;margin-left:-7px;border:2px solid #0b0f14}
+.peer .th{position:absolute;top:2px;width:1px;height:16px;background:var(--dimmer)}
+.peerlbl{display:flex;justify-content:space-between;color:var(--dimmer);font-size:10px;font-family:var(--mono)}
+.acts{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center}
+.acts a,.acts button{font-family:var(--mono);font-size:10.5px;color:var(--blue);background:transparent;border:1px solid var(--line2);padding:4px 9px;border-radius:4px;cursor:pointer;text-decoration:none}
+.acts a:hover,.acts button:hover{border-color:var(--blue)}
+.grp{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--dimmer);margin:14px 2px 8px}
+.chipsrow{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:11px;padding:3px 8px;border-radius:4px;border:1px solid var(--line2);color:var(--dim);cursor:pointer;background:var(--panel2)}
+.chip.nd{background:repeating-linear-gradient(45deg,#17212b 0 3px,#121a22 3px 6px)}
+.heatbox{padding:10px 14px 12px}
+.heatbox canvas{display:block;width:100%}
+.seg{display:flex;gap:6px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;color:var(--dim);padding:0 14px 12px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.tip{position:fixed;pointer-events:none;background:#0e151d;border:1px solid var(--line2);padding:7px 10px;border-radius:5px;font-size:11.5px;display:none;z-index:50;max-width:260px;line-height:1.45}
+.work{margin-top:16px}
+.wk{padding:12px 16px}
+.wkh{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.wkh h3{margin:0;font-size:18px}
+.sigchips{display:flex;gap:6px;margin:8px 0}
+.sigchip{font-family:var(--mono);font-size:10.5px;padding:4px 9px;border:1px solid var(--line2);border-radius:4px;color:var(--dim);cursor:pointer}
+.sigchip.on{color:var(--text);border-color:var(--mint)}
+.trust{margin-top:16px;display:grid;grid-template-columns:1.15fr 1fr;gap:16px}
+table{width:100%;border-collapse:collapse}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--dimmer);text-align:left;font-weight:500;padding:7px 8px;border-bottom:1px solid var(--line)}
+td{padding:7px 8px;border-bottom:1px solid #18222e;vertical-align:top}
+.note{margin:12px 14px;padding:11px 13px;border:1px solid #6b5420;background:#1b1507;border-radius:6px;line-height:1.55;color:#e9d9b0}
+.note.neg{border-color:#7a2a3a;background:#1d0d13;color:#f0cbd3}
+.pad{padding:12px 14px}
+.foot{color:var(--dimmer);font-size:11px;margin-top:14px;line-height:1.6}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#0e151d;border:1px solid var(--mint);padding:8px 14px;border-radius:6px;font-family:var(--mono);font-size:12px;display:none;z-index:60}
+@media(max-width:860px){.cols,.trust{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="top">
+  <div>
+    <h1>GLOF <b>//</b> TRIAGE BOARD</h1>
+    <div class="sub" id="sub"></div>
+  </div>
+  <div class="chips" id="status"></div>
+</div>
+
+<div class="bar">
+  <span class="lbl">Window</span><span class="d" id="winD"></span>
+  <button class="btn" id="play">▶ PLAY</button>
+  <input type="range" id="slider" min="0" value="0">
+  <button class="btn" id="latest">LATEST</button>
+  <button class="btn" id="evbtn" style="display:none"></button>
+</div>
+
+<div class="tiles" id="tiles"></div>
+
+<div class="cols">
+  <div class="card">
+    <div class="hd"><h2>ATTENTION QUEUE</h2><span class="lbl" id="qcount"></span></div>
+    <div class="queue" id="queue"></div>
+  </div>
+  <div class="card">
+    <div class="hd"><h2>EVERY LAKE, EVERY WINDOW</h2>
+      <div class="seg" id="modes"><button class="btn on" data-m="tier">TRIAGE</button><button class="btn" data-m="risk">RISK %</button><button class="btn" data-m="excess">VS PEERS</button></div></div>
+    <div class="heatbox"><div class="lbl" style="margin-bottom:4px">Share of lakes at or above Watch (teal = regional / seasonal window, discounted)</div><canvas id="cvSync" height="46"></canvas>
+      <canvas id="cvHeat"></canvas></div>
+    <div class="legend" id="legend"></div>
+  </div>
+</div>
+
+<div class="card work">
+  <div class="hd"><h2>LAKE WORKBENCH</h2><span class="lbl">click a card, a heatmap cell or a chip to open a lake</span></div>
+  <div class="wk">
+    <div class="wkh"><h3 id="wName"></h3><div class="reg" id="wSub"></div></div>
+    <div class="lbl" style="margin-top:12px">Risk % vs the fleet median (teal columns: many lakes high at once)</div>
+    <canvas id="cvLake" style="width:100%;display:block"></canvas>
+    <div class="sigchips" id="sigchips"></div>
+    <canvas id="cvSig" style="width:100%;display:block"></canvas>
+  </div>
+</div>
+
+<div class="trust">
+  <div class="card"><div class="hd"><h2>CAN I TRUST THIS?</h2></div><div id="trust"></div></div>
+  <div class="card"><div class="hd"><h2>WHAT THE ALERT VOLUME LOOKS LIKE</h2></div><div id="load" class="pad"></div></div>
+</div>
+<div class="foot" id="foot"></div>
+<div class="tip" id="tip"></div><div class="toast" id="toast"></div>
+
+<script>
+const D=/*__DATA__*/null;
+const N=D.dates.length,LAST=N-1,M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const TIER=["NO DATA","CLEAR","REGIONAL","WATCH","ALERT"];
+const COL=["#6b7b8a","#2f8f6b","#4fb3c8","#f5b83d","#ff5470"];
+const $=id=>document.getElementById(id);
+const fd=s=>{const d=new Date(s+"T00:00:00Z");return d.getUTCDate()+" "+M[d.getUTCMonth()]+" "+d.getUTCFullYear()};
+const byId={};D.lakes.forEach((l,i)=>{l.k=i;byId[l.id]=l});
+let t=LAST,sel=D.default,mode="tier",playing=false,timer=null,showAll=false;
+const sigOn=new Set(["lake area km²","radar VV dB"]);
+const SIGC={"lake area km²":"#4be0a0","radar VV dB":"#6ea8ff","thermal index":"#b48cff"};
+const mono=()=>getComputedStyle(document.body).getPropertyValue("--mono");
+
+/* ---------- derived per window ---------- */
+function atT(i){
+  const a=D.lakes.filter(l=>l.risk[i]!=null).map(l=>l.risk[i]).sort((x,y)=>x-y);
+  const q=p=>a.length?a[Math.min(a.length-1,Math.floor(p*(a.length-1)))]:null;
+  return {n:a.length,p25:q(.25),p75:q(.75),med:D.med[i]};
+}
+function streak(l,i){let s=0;while(i>=0&&l.code[i]>=3){s++;i--}return s}
+
+/* ---------- header, tiles ---------- */
+function header(){
+  $("sub").textContent="Which lakes need a human look this window, and why. "+D.lakes.length+" lakes · one unsupervised model per lake · flags need the lake to stand out from its peers.";
+  const b=D.behind_days;
+  $("status").innerHTML=
+   '<span class="pill">learned from 2017–'+D.train_end.slice(0,4)+'</span>'+
+   '<span class="pill">record ends '+fd(D.record_end)+'</span>'+
+   '<span class="pill '+(b>14?'warn':'')+'">feed '+(b<=0?'current':b+' d behind')+'</span>';
+}
+function tiles(){
+  const c=[0,0,0,0,0];D.lakes.forEach(l=>c[l.code[t]]++);
+  const f=(n,l,s,col)=>'<div class="tile" style="border-top-color:'+col+'"><div class="lbl">'+l+'</div><div class="v" style="color:'+col+'">'+n+'</div><div class="s">'+s+'</div></div>';
+  $("tiles").innerHTML=
+   f(c[4],"Look at imagery now","alert · ≥"+D.rules.alert_risk+"% and +"+D.rules.alert_excess+" vs peers",COL[4])+
+   f(c[3],"Look this window","watch · ≥"+D.rules.watch_risk+"% and +"+D.rules.watch_excess+" vs peers",COL[3])+
+   f(c[2],"Discounted (regional)","high, but "+Math.round(D.rules.regional*100)+"%+ of lakes are high at once",COL[2])+
+   f(c[0],"Cannot assess","no usable signal. Never shown as clear",COL[0])+
+   f(c[1],"Clear","assessed, nothing unusual",COL[1]);
+  const r=D.regional[t];
+  const extra=r?'<span class="pill reg">regional signal: '+Math.round(D.share[t]*100)+'% of lakes high at once</span>':'';
+  $("status").innerHTML=$("status").innerHTML.replace(/<span class="pill reg">.*?<\/span>/,'')+extra;
+}
+
+/* ---------- attention queue ---------- */
+function peerBar(l){
+  const r=l.risk[t],s=atT(t),col=COL[l.code[t]];
+  if(r==null)return "";
+  const x=v=>(v/100*100).toFixed(1)+"%";
+  return '<div class="peer"><div class="axis"></div>'+(s.p25!=null?'<div class="iqr" style="left:'+x(s.p25)+';width:'+((s.p75-s.p25)).toFixed(1)+'%"></div>':'')+
+    (s.med!=null?'<div class="med" style="left:'+x(s.med)+'"></div>':'')+
+    '<div class="th" style="left:'+D.rules.watch_risk+'%"></div><div class="th" style="left:'+D.rules.alert_risk+'%"></div>'+
+    '<div class="dot" style="left:'+x(r)+';background:'+col+'"></div></div>'+
+    '<div class="peerlbl"><span>0</span><span>blue band = middle half of lakes · line = fleet median '+(s.med!=null?Math.round(s.med)+'%':'n/a')+'</span><span>100</span></div>';
+}
+function spark(l){
+  const w=120,h=30,s=Math.max(0,t-35),pts=[];
+  const X=i=>2+(w-4)*(i-s)/Math.max(1,t-s),Y=v=>h-3-(h-6)*v/100;let d="",pen=false;
+  for(let i=s;i<=t;i++){const v=l.risk[i];if(v==null){pen=false;continue}d+=(pen?"L":"M")+X(i).toFixed(1)+" "+Y(v).toFixed(1)+" ";pen=true}
+  let m="",pm=false;for(let i=s;i<=t;i++){const v=D.med[i];if(v==null){pm=false;continue}m+=(pm?"L":"M")+X(i).toFixed(1)+" "+Y(v).toFixed(1)+" ";pm=true}
+  return '<svg width="'+w+'" height="'+h+'"><path d="'+m+'" fill="none" stroke="#6ea8ff" stroke-width="1" stroke-dasharray="2 2" opacity=".7"/><path d="'+d+'" fill="none" stroke="'+COL[l.code[t]]+'" stroke-width="1.6"/></svg>';
+}
+function card(l){
+  const c=l.code[t],tier=TIER[c],why=(l.why[t]||[]).map(x=>'<li>'+x+'</li>').join("")||'<li>'+(c===1?'Within the normal range for this lake and its peers.':'No details recorded.')+'</li>';
+  const st=streak(l,t),conf=l.conf[t];
+  return '<div class="qc '+tier+(l.id===sel?' sel':'')+'" data-id="'+l.id+'"><h3>'+l.name+'<span class="tag '+tier+'">'+tier+'</span>'+
+    (st>1?'<span class="tag n">streak ×'+st+'</span>':'')+(conf!=="none"?'<span class="tag conf-'+conf+'">confidence '+conf+'</span>':'')+
+    (l.small?'<span class="tag n">small lake</span>':'')+'</h3><div class="reg">'+l.region+' · '+l.id+'</div>'+peerBar(l)+'<ul class="why">'+why+'</ul>'+
+    '<div style="display:flex;justify-content:space-between;align-items:center"><div class="acts">'+
+    (l.link?'<a href="'+l.link+'" target="_blank" rel="noopener">OPEN IMAGERY ↗</a>':'<button disabled title="add lon/lat in lakes/lakes.csv" style="opacity:.5">NO COORDINATES YET</button>')+
+    (l.lat!=null?'<button data-copy="'+l.lat.toFixed(4)+', '+l.lon.toFixed(4)+'">COPY COORDS</button>':'')+
+    '</div>'+spark(l)+'</div></div>';
+}
+function queue(){
+  const flagged=D.lakes.filter(l=>l.code[t]>=3).sort((a,b)=>b.code[t]-a.code[t]||(a.small-b.small)||(b.excess[t]??-99)-(a.excess[t]??-99));
+  const cap=showAll?flagged.length:6,shown=flagged.slice(0,cap);
+  const reg=D.lakes.filter(l=>l.code[t]===2),nd=D.lakes.filter(l=>l.code[t]===0);
+  $("qcount").textContent=flagged.length+" TO REVIEW";
+  let h=shown.map(card).join("");
+  if(!flagged.length)h='<div class="qc" style="border-left-color:var(--clear)"><h3>Nothing stands out from its peers this window.</h3><div class="reg">That is a statement about unusualness only, not a guarantee that every lake is safe.</div></div>';
+  if(flagged.length>cap)h+='<button class="btn" id="more">SHOW '+(flagged.length-cap)+' MORE</button>';
+  if(sel&&!flagged.find(l=>l.id===sel)&&byId[sel].code[t]>0)h+='<div class="grp">SELECTED LAKE (NOT FLAGGED)</div>'+card(byId[sel]);
+  if(reg.length)h+='<div class="grp">DISCOUNTED: HIGH BUT REGIONAL ('+reg.length+')</div><div class="chipsrow">'+reg.map(l=>'<span class="chip" data-id="'+l.id+'">'+l.name+' '+Math.round(l.risk[t])+'%</span>').join("")+'</div>';
+  if(nd.length)h+='<div class="grp">CANNOT ASSESS ('+nd.length+')</div><div class="chipsrow">'+nd.map(l=>'<span class="chip nd" data-id="'+l.id+'">'+l.name+'</span>').join("")+'</div>';
+  $("queue").innerHTML=h;
+  document.querySelectorAll("#queue .qc").forEach(e=>e.addEventListener("click",ev=>{if(ev.target.closest("a,button"))return;pick(e.dataset.id)}));
+  document.querySelectorAll("#queue .chip").forEach(e=>e.addEventListener("click",()=>pick(e.dataset.id)));
+  document.querySelectorAll("#queue [data-copy]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();const v=b.dataset.copy;try{navigator.clipboard.writeText(v)}catch(_){}toast("Coordinates: "+v)}));
+  const mb=$("more");if(mb)mb.onclick=()=>{showAll=true;queue()};
+}
+function toast(m){const e=$("toast");e.textContent=m;e.style.display="block";clearTimeout(e._t);e._t=setTimeout(()=>e.style.display="none",2600)}
+
+/* ---------- heatmap ---------- */
+const groups=[];
+(function(){const g={};D.lakes.forEach(l=>(g[l.region]=g[l.region]||[]).push(l));
+  Object.keys(g).sort((a,b)=>a==="Other"?1:b==="Other"?-1:g[b].length-g[a].length||a.localeCompare(b)).forEach(k=>groups.push({name:k,lakes:g[k].sort((a,b)=>a.name.localeCompare(b.name))}))})();
+const ROWH=13,GAP=7,LABW=168;
+let heat={w:0,rows:[]};
+function ramp(v){ // 0..100 -> dark..mint..yellow..red
+  const s=[[0,[16,36,34]],[60,[47,143,107]],[80,[245,184,61]],[100,[255,84,112]]];
+  for(let i=1;i<s.length;i++)if(v<=s[i][0]){const a=s[i-1],b=s[i],f=(v-a[0])/(b[0]-a[0]);return "rgb("+a[1].map((x,k)=>Math.round(x+(b[1][k]-x)*f)).join(",")+")"}
+  return "rgb(255,84,112)";
+}
+function exColor(e){ // peer excess -40..+60
+  if(e>=0){const f=Math.min(1,e/50);return "rgb("+Math.round(30+225*f)+","+Math.round(50+30*(1-f)+60*(1-f))+","+Math.round(60+50*(1-f))+")"}
+  const f=Math.min(1,-e/40);return "rgb("+Math.round(30-10*f)+","+Math.round(50+20*f)+","+Math.round(60+100*f)+")"}
+function layoutHeat(){
+  const wrap=$("cvHeat").parentElement,w=wrap.clientWidth-28;heat.w=w;heat.rows=[];let y=0;
+  groups.forEach(g=>{heat.rows.push({label:g.name,y,group:true});y+=12;g.lakes.forEach(l=>{heat.rows.push({lake:l,y});y+=ROWH});y+=GAP});
+  heat.h=y+16;return w;
+}
+function setup(c,w,h){const dpr=window.devicePixelRatio||1;c.style.width=w+"px";c.style.height=h+"px";c.width=w*dpr;c.height=h*dpr;const x=c.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);return x}
+function xOf(i){return LABW+(heat.w-LABW-4)*i/N}
+function drawHeat(){
+  const w=layoutHeat(),cw=(w-LABW-4)/N;
+  const x=setup($("cvHeat"),w,heat.h);x.font="10px "+mono();x.textBaseline="middle";
+  heat.rows.forEach(r=>{
+    if(r.group){x.fillStyle="#8296a8";x.font="600 10px "+mono();x.textAlign="left";x.fillText(r.label.toUpperCase(),2,r.y+6);x.font="10px "+mono();return}
+    const l=r.lake;x.fillStyle=l.id===sel?"#4be0a0":"#8aa0b4";x.textAlign="left";x.fillText(l.name.length>24?l.name.slice(0,23)+"…":l.name,10,r.y+ROWH/2);
+    for(let i=0;i<N;i++){
+      const c=l.code[i],rk=l.risk[i],px=LABW+cw*i,pw=Math.max(cw,1.2);
+      if(c===0){x.fillStyle="#141c25";x.fillRect(px,r.y+1,pw,ROWH-2);continue}
+      if(mode==="tier")x.fillStyle=COL[c];
+      else if(mode==="risk")x.fillStyle=ramp(rk);
+      else x.fillStyle=l.excess[i]==null?"#141c25":exColor(l.excess[i]);
+      if(mode==="tier"&&c===1)x.globalAlpha=.55;
+      x.fillRect(px,r.y+1,pw,ROWH-2);x.globalAlpha=1;
+    }
+    l.events.forEach(e=>{const px=LABW+cw*(e.i+.5);x.fillStyle="#fff";x.beginPath();x.moveTo(px,r.y+1);x.lineTo(px+4,r.y+ROWH/2);x.lineTo(px,r.y+ROWH-1);x.lineTo(px-4,r.y+ROWH/2);x.closePath();x.fill();x.strokeStyle="#0b0f14";x.stroke()});
+  });
+  // year ticks
+  x.fillStyle="#566a7d";x.textAlign="left";let last=null;
+  D.dates.forEach((d,i)=>{const y=d.slice(0,4);if(y!==last){last=y;x.fillText(y,LABW+cw*i,heat.h-6);x.strokeStyle="rgba(130,150,170,.18)";x.beginPath();x.moveTo(LABW+cw*i,0);x.lineTo(LABW+cw*i,heat.h-14);x.stroke()}});
+  // cursor
+  x.strokeStyle="#fff";x.lineWidth=1.2;x.beginPath();x.moveTo(LABW+cw*(t+.5),0);x.lineTo(LABW+cw*(t+.5),heat.h-14);x.stroke();
+  // sync strip
+  const sx=setup($("cvSync"),w,46),cw2=cw;
+  sx.fillStyle="#0e151d";sx.fillRect(LABW,0,w-LABW-4,46);
+  for(let i=0;i<N;i++){const v=D.share[i];if(v==null)continue;sx.fillStyle=D.regional[i]?"#4fb3c8":"#35506a";const hh=Math.max(1,v*40);sx.fillRect(LABW+cw2*i,44-hh,Math.max(cw2,1.2),hh)}
+  sx.strokeStyle="#4fb3c8";sx.setLineDash([3,3]);sx.beginPath();sx.moveTo(LABW,44-D.rules.regional*40);sx.lineTo(w-4,44-D.rules.regional*40);sx.stroke();sx.setLineDash([]);
+  sx.fillStyle="#566a7d";sx.font="10px "+mono();sx.textAlign="left";sx.fillText("lakes high at once",2,12);sx.fillText(Math.round(D.rules.regional*100)+"% = regional",2,26);
+  sx.strokeStyle="#fff";sx.beginPath();sx.moveTo(LABW+cw2*(t+.5),0);sx.lineTo(LABW+cw2*(t+.5),46);sx.stroke();
+  legend();
+}
+function legend(){
+  const sw=(c,n,h)=>'<span><i style="background:'+(h?'repeating-linear-gradient(45deg,#2a3744 0 2px,#141c25 2px 4px)':c)+'"></i>'+n+'</span>';
+  $("legend").innerHTML=mode==="tier"?[sw(COL[4],"Alert"),sw(COL[3],"Watch"),sw(COL[2],"Regional (discounted)"),sw(COL[1],"Clear"),sw("","Cannot assess",1),'<span>◆ recorded outburst</span>'].join(""):
+    mode==="risk"?'<span>risk %: dark = low · green 60 · yellow 80 · red 100</span><span>dark hatched = cannot assess</span><span>◆ recorded outburst</span>':
+    '<span>score minus fleet median: blue = below peers · red = far above peers (regional spikes disappear)</span><span>◆ recorded outburst</span>';
+}
+const cvH=$("cvHeat");
+function hit(e){const r=cvH.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top,cw=(heat.w-LABW-4)/N;
+  const i=Math.floor((mx-LABW)/cw);const row=heat.rows.find(q=>!q.group&&my>=q.y&&my<q.y+ROWH);
+  return (row&&i>=0&&i<N)?{l:row.lake,i}:(row&&mx<LABW?{l:row.lake,i:null}:null)}
+cvH.addEventListener("mousemove",e=>{const h=hit(e),tip=$("tip");
+  if(h&&h.i!=null){const l=h.l,c=l.code[h.i];tip.style.display="block";tip.style.left=Math.min(e.clientX+14,innerWidth-270)+"px";tip.style.top=(e.clientY+14)+"px";
+    tip.innerHTML="<b>"+l.name+"</b><br>"+fd(D.dates[h.i])+"<br><span style='color:"+COL[c]+"'>"+TIER[c]+"</span>"+(l.risk[h.i]!=null?" · risk "+Math.round(l.risk[h.i])+"%"+(l.excess[h.i]!=null?" ("+(l.excess[h.i]>=0?"+":"")+Math.round(l.excess[h.i])+" vs peers)":""):"")}
+  else tip.style.display="none";cvH.style.cursor=h?"pointer":"default"});
+cvH.addEventListener("mouseleave",()=>$("tip").style.display="none");
+cvH.addEventListener("click",e=>{const h=hit(e);if(!h)return;if(h.i!=null)setT(h.i);pick(h.l.id)});
+
+/* ---------- workbench ---------- */
+function drawLake(){
+  const l=byId[sel],c=$("cvLake"),w=c.parentElement.clientWidth-32,h=190,x=setup(c,w,h),padL=34,top=8,bot=h-16,cw=(w-padL-6)/(N-1);
+  const X=i=>padL+cw*i,Y=v=>bot-(bot-top)*v/100;x.font="10px "+mono();
+  D.regional.forEach((r,i)=>{if(r){x.fillStyle="rgba(79,179,200,.14)";x.fillRect(X(i)-cw/2,top,Math.max(cw,1.5),bot-top)}});
+  l.risk.forEach((v,i)=>{if(v==null){x.fillStyle="rgba(107,123,138,.22)";x.fillRect(X(i)-cw/2,top,Math.max(cw,1.5),bot-top)}});
+  [[D.rules.alert_risk,"#ff5470"],[D.rules.watch_risk,"#f5b83d"]].forEach(([v,c2])=>{x.setLineDash([5,4]);x.strokeStyle=c2;x.globalAlpha=.6;x.beginPath();x.moveTo(padL,Y(v));x.lineTo(w-6,Y(v));x.stroke();x.setLineDash([]);x.globalAlpha=1;x.fillStyle=c2;x.textAlign="right";x.fillText(v,padL-5,Y(v)+3)});
+  // fleet median
+  x.strokeStyle="#6ea8ff";x.lineWidth=1.2;x.setLineDash([3,3]);let pen=false;x.beginPath();D.med.forEach((v,i)=>{if(v==null){pen=false;return}pen?x.lineTo(X(i),Y(v)):x.moveTo(X(i),Y(v));pen=true});x.stroke();x.setLineDash([]);
+  // lake risk
+  x.strokeStyle="#4be0a0";x.lineWidth=1.6;pen=false;x.beginPath();l.risk.forEach((v,i)=>{if(v==null){pen=false;return}pen?x.lineTo(X(i),Y(v)):x.moveTo(X(i),Y(v));pen=true});x.stroke();
+  // flagged dots
+  l.code.forEach((cd,i)=>{if(cd>=3&&l.risk[i]!=null){x.fillStyle=COL[cd];x.beginPath();x.arc(X(i),Y(l.risk[i]),2.6,0,7);x.fill()}});
+  l.events.forEach(e=>{x.strokeStyle="#fff";x.lineWidth=1.4;x.beginPath();x.moveTo(X(e.i),top);x.lineTo(X(e.i),bot);x.stroke();x.fillStyle="#fff";x.textAlign="center";x.fillText(String(e.label).toUpperCase(),Math.min(Math.max(X(e.i),70),w-70),top+9)});
+  let last=null;x.fillStyle="#566a7d";x.textAlign="left";D.dates.forEach((d,i)=>{const y=d.slice(0,4);if(y!==last){last=y;x.fillText(y,X(i)+2,h-3)}});
+  const ti=D.dates.findIndex(d=>d>D.train_end);if(ti>0){x.fillStyle="#6ea8ff";x.fillText("LIVE SCORING →",X(ti)+4,top+22)}
+  x.strokeStyle="rgba(255,255,255,.85)";x.setLineDash([2,3]);x.lineWidth=1;x.beginPath();x.moveTo(X(t),top);x.lineTo(X(t),bot);x.stroke();x.setLineDash([]);
+  c._g={padL,cw};
+}
+$("cvLake").addEventListener("click",e=>{const g=$("cvLake")._g,r=$("cvLake").getBoundingClientRect();setT(Math.max(0,Math.min(LAST,Math.round((e.clientX-r.left-g.padL)/g.cw))))});
+function drawSig(){
+  const l=byId[sel],c=$("cvSig"),w=c.parentElement.clientWidth-32,h=130,x=setup(c,w,h),padL=34,top=6,bot=h-14,cw=(w-padL-6)/(N-1),X=i=>padL+cw*i;
+  Object.keys(SIGC).forEach(k=>{if(!sigOn.has(k))return;const s=l.series[k],v=s.filter(q=>q!=null);if(!v.length)return;const mn=Math.min(...v),mx=Math.max(...v),rg=(mx-mn)||1;
+    x.strokeStyle=SIGC[k];x.lineWidth=1.3;let pen=false;x.beginPath();s.forEach((q,i)=>{if(q==null){pen=false;return}const y=bot-(bot-top)*(q-mn)/rg;pen?x.lineTo(X(i),y):x.moveTo(X(i),y);pen=true});x.stroke()});
+  x.fillStyle="#566a7d";x.font="10px "+mono();x.textAlign="right";x.fillText("each signal scaled to its own range",w-6,top+8);
+  x.strokeStyle="rgba(255,255,255,.7)";x.setLineDash([2,3]);x.beginPath();x.moveTo(X(t),top);x.lineTo(X(t),bot);x.stroke();x.setLineDash([]);
+  $("sigchips").innerHTML=Object.keys(SIGC).map(k=>'<span class="sigchip'+(sigOn.has(k)?' on':'')+'" data-k="'+k+'" style="'+(sigOn.has(k)?'border-color:'+SIGC[k]:'')+'">'+k+'</span>').join("");
+  document.querySelectorAll(".sigchip").forEach(e=>e.onclick=()=>{const k=e.dataset.k;sigOn.has(k)?sigOn.delete(k):sigOn.add(k);drawSig()});
+}
+function workbench(){
+  const l=byId[sel],c=l.code[t];
+  $("wName").innerHTML=l.name+' <span class="tag '+TIER[c].replace(" ","")+'" style="font-size:11px">'+TIER[c]+'</span>';
+  $("wSub").textContent=[l.region,l.id,(l.lat!=null?l.lat.toFixed(3)+"°N "+l.lon.toFixed(3)+"°E":"coordinates not set"),l.has_area?"":"no usable lake-area signal (radar + temperature only)",l.small?"small lake: area near noise level":""].filter(Boolean).join(" · ");
+  drawLake();drawSig();
+}
+
+/* ---------- trust + workload ---------- */
+function trust(){
+  const ev=D.events,bt=D.backtest;let h="";
+  if(!ev.length){h='<div class="note">No recorded outburst exists for any lake in this fleet, so nothing here can be validated. Scores only say how unusual a window is.</div>'}
+  else{
+    h='<div class="pad"><table><tr><th>LAKE · EVENT</th><th>TRIAGE AT THE EVENT</th><th>PEER RANK</th><th>FLAGGED IN THE 30 DAYS BEFORE</th></tr>'+
+      ev.map(e=>{const o=bt&&bt.events.find(b=>b.lake_id===e.lake_id);
+        return '<tr><td><b>'+e.name+'</b><br><span class="reg">'+e.event+'</span></td><td><span class="tag '+e.tier_at_event+'">'+e.tier_at_event+'</span> '+Math.round(e.risk)+'%'+
+        (o?'<br><span class="reg">out-of-sample (trained to 2021 only): <span class="tag '+o.tier+'">'+o.tier+'</span> '+Math.round(o.risk)+'%</span>':'')+'</td><td>#'+e.peer_rank+' of '+e.n_lakes+'</td>'+
+        '<td>'+(e.flagged_30d_before?'yes':'<b style="color:var(--alert)">no</b>')+'<br><span class="reg">any flag in 90 days before: '+(e.flagged_90d_before?'yes':'no')+', but a typical lake has one in '+e.base_rate_90d+'% of 90-day spans, so that is no evidence</span></td></tr>'}).join("")+'</table></div>';
+    h+='<div class="note neg"><b>Detected, not predicted.</b> The event window stood out (rank #1 of '+ev[0].n_lakes+' lakes), but the 30 days before it were not flagged. '+
+       'This is one event, so it shows detection only. It cannot show that the system gives advance warning.</div>';
+  }
+  h+='<div class="note">To become a <b>prediction</b> system it needs (1) more documented outbursts to test lead time and false alarms, (2) the drivers that come before an outburst, such as heavy rain, melt and temperature extremes, and (3) lake growth trends over months. None of these is in the scores yet.</div>';
+  $("trust").innerHTML=h;
+}
+function load(){
+  const w=D.workload,k=Object.keys(w),b=D.backtest;
+  let h='<table><tr><th>PERIOD</th><th>ALERTS / LAKE-YEAR</th><th>WATCH+ALERT / LAKE-YEAR</th><th>FLAGS / 10-DAY WINDOW (ALL LAKES)</th></tr>'+
+    k.map(n=>'<tr><td>'+n+'</td><td>'+w[n].alerts_per_lake_year+'</td><td>'+w[n].watch_or_alert_per_lake_year+'</td><td>'+w[n].flags_per_window_alert+' alert · '+w[n].flags_per_window_watch_or_alert+' watch+alert</td></tr>').join("")+
+    (b?'<tr><td>2022+ out-of-sample (all lakes trained to 2021)</td><td>'+b.alerts_per_lake_year+'</td><td>'+b.watch_or_alert_per_lake_year+'</td><td>plain risk ≥95% would give '+b.raw_95_per_lake_year+' per lake-year</td></tr>':'')+'</table>';
+  const a=w[k[0]];
+  h+='<div class="reg" style="margin-top:10px;line-height:1.55">About '+(a?a.raw_high_in_regional_pct:'?')+'% of all risk ≥95% scores fall in regional windows (mostly April–June snowmelt). Requiring a lake to stand out from its peers removes those. '+
+     'Expect roughly <b>'+(a?a.flags_per_window_alert:'?')+' ALERT</b> and <b>'+(a?a.flags_per_window_watch_or_alert:'?')+' WATCH or ALERT</b> lakes per 10-day window across the whole fleet, so budget reviewer time accordingly. '+
+     'The thresholds were chosen to cap that workload, not tuned on the one known event.</div>';
+  $("load").innerHTML=h;
+}
+
+/* ---------- state ---------- */
+function pick(id){sel=id;queue();drawHeat();workbench();evBtn()}
+function setT(i){t=i;$("slider").value=i;$("winD").textContent=fd(D.dates[i]);tiles();queue();drawHeat();workbench()}
+function evBtn(){const l=byId[sel],b=$("evbtn");if(l.events.length){b.style.display="";b.textContent="EVENT · "+String(l.events[0].label).toUpperCase();b.onclick=()=>setT(l.events[0].i)}else b.style.display="none"}
+function play(){playing=!playing;$("play").textContent=playing?"❚❚ PAUSE":"▶ PLAY";
+  if(playing){if(t>=LAST)setT(0);timer=setInterval(()=>{if(t>=LAST){play();return}setT(t+1)},260)}else clearInterval(timer)}
+$("play").onclick=play;$("latest").onclick=()=>{if(playing)play();setT(LAST)};
+$("slider").max=LAST;$("slider").oninput=e=>{if(playing)play();setT(+e.target.value)};
+document.querySelectorAll("#modes .btn").forEach(b=>b.onclick=()=>{mode=b.dataset.m;document.querySelectorAll("#modes .btn").forEach(x=>x.classList.toggle("on",x===b));drawHeat()});
+window.addEventListener("resize",()=>{drawHeat();workbench()});
+
+header();trust();load();setT(LAST);evBtn();
+$("foot").innerHTML="Risk % = percentile of a window's anomaly score against that lake's own 2017–"+D.train_end.slice(0,4)+" history. A lake is flagged only if it also stands out from the fleet median in the same window. "+
+  "A score says how unusual a window is, never that a flood will happen. Decision support only; this system does not issue public alerts. Built "+fd(D.today)+".";
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+streamlit>=1.50
+pandas
+numpy
+scikit-learn>=1.4
+joblib
+altair
+# only needed for the "Update with latest satellite data" step / pipeline.py update:
+pystac-client
+planetary-computer
+rasterio
+pyproj
+scipy

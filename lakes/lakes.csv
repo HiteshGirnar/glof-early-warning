@@ -1,0 +1,43 @@
+lake_id,name,region,lon,lat,half_km,bbox,seed_lon,seed_lat,tile,s1_orbit_state,s1_rel_orbit,min_area,event_windows,event_label,setup_status
+basudhara_tal,Basudhara Tal,Uttarakhand,79.747,30.9031,1.5,,,,44RLV,ascending,56,0.0925,,,"verified: tile 44RLV, track ascending 56"
+chandratal,Chandratal,,,,,,,,,,,,,,needs lon/lat
+changsang_sikkim,Changsang Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
+cwc_jk187_ladakh,Cwc Jk187 Ladakh,Ladakh,,,,,,,,,,,,,needs lon/lat
+cwc_jk197_ladakh,Cwc Jk197 Ladakh,Ladakh,,,,,,,,,,,,,needs lon/lat
+cwc_sk11_sikkim,Cwc Sk11 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
+cwc_sk16_sikkim,Cwc Sk16 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
+cwc_sk19_sikkim,Cwc Sk19 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
+cwc_sk4_sikkim,Cwc Sk4 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
+cwc_sk5_sikkim,Cwc Sk5 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
+cwc_sk8_sikkim,Cwc Sk8 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
+cwc_sk9_sikkim,Cwc Sk9 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
+gepang_gath,Gepang Gath,,,,,,,,,,,,,,needs lon/lat
+gurudongmar_lake4,Gurudongmar Lake 4,Sikkim,88.711,28.026,1.5,,,,45RXM,,,,,,from notebook; run setup_lake.py to verify
+kausar_nag,Kausar Nag,,,,,,,,,,,,,,needs lon/lat
+khangchung_tso,Khangchung Tso,,,,,,,,,,,,,,needs lon/lat
+khecheopalri,Khecheopalri,Sikkim,88.1886,27.3500,1.5,,,,45RXL,ascending,12,0.02,,,"verified: tile 45RXL, track ascending 12"
+mundiksar_lake,Mundiksar Lake,,,,,,,,,,,,,,needs lon/lat
+ndma077_parvati,Ndma077 Parvati,Parvati,,,,,,,,,,,,,needs lon/lat
+ndma078_ravi,Ndma078 Ravi,Ravi,,,,,,,,,,,,,needs lon/lat
+ndma081_baspa,Ndma081 Baspa,Baspa,,,,,,,,,,,,,needs lon/lat
+ndma433_kinnaur,Ndma433 Kinnaur,Kinnaur,,,,,,,,,,,,,needs lon/lat
+ndma434_miyar,Ndma434 Miyar,Miyar,,,,,,,,,,,,,needs lon/lat
+ndma435_bhaga,Ndma435 Bhaga,Bhaga,,,,,,,,,,,,,needs lon/lat
+ndma436_chandra,Ndma436 Chandra,Chandra,,,,,,,,,,,,,needs lon/lat
+ndma437_chandra,Ndma437 Chandra,Chandra,,,,,,,,,,,,,needs lon/lat
+ndma438_spiti,Ndma438 Spiti,Spiti,,,,,,,,,,,,,needs lon/lat
+ndma441_spiti,Ndma441 Spiti,Spiti,,,,,,,,,,,,,needs lon/lat
+ndma442_spiti,Ndma442 Spiti,Spiti,,,,,,,,,,,,,needs lon/lat
+ndma443_spiti,Ndma443 Spiti,Spiti,,,,,,,,,,,,,needs lon/lat
+ndma444_bhaga,Ndma444 Bhaga,Bhaga,,,,,,,,,,,,,needs lon/lat
+samudra_tapu,Samudra Tapu,,,,,,,,,,,,,,needs lon/lat
+satopanth_tal,Satopanth Tal,,,,,,,,,,,,,,needs lon/lat
+sccc_beas_28,Sccc Beas 28,Beas,,,,,,,,,,,,,needs lon/lat
+sccc_beas_34,Sccc Beas 34,Beas,,,,,,,,,,,,,needs lon/lat
+sccc_ravi,Sccc Ravi,Ravi,,,,,,,,,,,,,needs lon/lat
+sccc_satluj,Sccc Satluj,Satluj,,,,,,,,,,,,,needs lon/lat
+shako_cho,Shako Cho,,,,,,,,,,,,,,needs lon/lat
+shaushar_lake,Shaushar Lake,,,,,,,,,,,,,,needs lon/lat
+south_lhonak,South Lhonak,Sikkim,,,,"88.18,27.89,88.22,27.93",88.1836,27.9144,45RXL,ascending,12,0.5,2023-09-28,GLOF 4 Oct 2023,"verified: fetch matches CSV (area 1.56425 km2, 23 Jan 2023)"
+suru_glacial_lake,Suru Glacial Lake,,,,,,,,,,,,,,needs lon/lat
+tso_lhamo,Tso Lhamo,,,,,,,,,,,,,,needs lon/lat
