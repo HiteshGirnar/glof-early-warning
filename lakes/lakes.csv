@@ -12,7 +12,7 @@ cwc_sk5_sikkim,Cwc Sk5 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
 cwc_sk8_sikkim,Cwc Sk8 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
 cwc_sk9_sikkim,Cwc Sk9 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
 gepang_gath,Gepang Gath,,,,,,,,,,,,,,needs lon/lat
-gurudongmar_lake4,Gurudongmar Lake 4,Sikkim,88.711,28.026,1.5,,,,45RXM,,,,,,from notebook; run setup_lake.py to verify
+gurudongmar_lake4,Gurudongmar Lake 4,Sikkim,88.711,28.026,1.5,,,,45RXM,ascending,12,0.1,,,"verified: tile 45RXM, track ascending 12"
 kausar_nag,Kausar Nag,,,,,,,,,,,,,,needs lon/lat
 khangchung_tso,Khangchung Tso,,,,,,,,,,,,,,needs lon/lat
 khecheopalri,Khecheopalri,Sikkim,88.1886,27.3500,1.5,,,,45RXL,ascending,12,0.02,,,"verified: tile 45RXL, track ascending 12"

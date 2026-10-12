@@ -55,7 +55,7 @@ with st.sidebar:
                 st.caption("Planetary Computer may rate-limit or fail without internet. Stored windows are preserved.")
     else:
         st.info(f"ℹ️ **{C.LAKE_NAME}** does not have satellite coordinates configured in `lakes/lakes.csv`. "
-                f"Live satellite fetch is ready for **South Lhonak**, **Basudhara Tal**, and **Khecheopalri**.")
+                f"Live satellite fetch is ready for **South Lhonak**, **Basudhara Tal**, **Khecheopalri**, and **Gurudongmar Lake 4**.")
         if st.button("👉 Switch to South Lhonak (Fetch Ready)", width="stretch"):
             C.use("south_lhonak")
             st.rerun()
