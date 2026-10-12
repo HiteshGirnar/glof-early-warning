@@ -45,7 +45,16 @@ def lakes_with_data():
 
 
 def _f(x):
-    return float(x) if str(x).strip() not in ("", "nan") else None
+    if x is None or pd.isna(x):
+        return None
+    s = str(x).strip().lower()
+    if s in ("", "nan", "none", "null"):
+        return None
+    try:
+        val = float(s)
+        return None if np.isnan(val) else val
+    except (ValueError, TypeError):
+        return None
 
 
 def use(lake_id):
