@@ -13,9 +13,10 @@ import pandas as pd
 
 
 class GLOFPredictor:
-    def __init__(self, watch_threshold=55.0, alert_threshold=80.0):
+    def __init__(self, watch_threshold=55.0, alert_threshold=80.0, baseline_stats=None):
         self.watch_threshold = watch_threshold
         self.alert_threshold = alert_threshold
+        self.baseline_stats = baseline_stats
 
     def predict(self, prep_df):
         """
@@ -97,14 +98,23 @@ class GLOFPredictor:
         fc_30d = np.maximum(0.01, area_curr + 3.0 * momentum * 0.8).round(4)
         
         # Uncertainty envelopes (+/- 1.645 std based on historical observation residuals)
-        obs_res = np.nanstd(d["lake_area_km2"].diff()) if d["lake_area_km2"].notna().sum() > 10 else 0.05
-        obs_res = max(obs_res, 0.03)
+        base = self.baseline_stats or getattr(prep_df, "attrs", {}).get("baseline_stats")
+        if base:
+            obs_res = base.get("obs_res", 0.05)
+            area_max = base.get("area_max", 1.0)
+            area_min = base.get("area_min", 0.0)
+        else:
+            train_mask = d["window"] <= pd.Timestamp("2024-12-31")
+            train_sub = d[train_mask] if train_mask.any() else d
+            obs_res = np.nanstd(train_sub["lake_area_km2"].diff()) if train_sub["lake_area_km2"].notna().sum() > 10 else 0.05
+            obs_res = max(float(obs_res), 0.03)
+            area_max = np.nanquantile(train_sub["lake_area_km2"].dropna(), 0.98) if train_sub["lake_area_km2"].notna().sum() >= 15 else 1.0
+            area_min = np.nanquantile(train_sub["lake_area_km2"].dropna(), 0.05) if train_sub["lake_area_km2"].notna().sum() >= 15 else 0.0
+
         fc_30d_low = np.maximum(0.01, fc_30d - 1.645 * obs_res * np.sqrt(3)).round(4)
         fc_30d_high = (fc_30d + 1.645 * obs_res * np.sqrt(3)).round(4)
 
         # Projected 30-day capacity ratio
-        area_max = np.nanquantile(d["lake_area_km2"].dropna(), 0.98) if d["lake_area_km2"].notna().sum() >= 15 else 1.0
-        area_min = np.nanquantile(d["lake_area_km2"].dropna(), 0.05) if d["lake_area_km2"].notna().sum() >= 15 else 0.0
         denom = max(area_max - area_min, 0.05)
         proj_cap_30d = np.clip((fc_30d - area_min) / denom, 0.0, 1.5).round(3)
         forecast_threat = np.clip((proj_cap_30d - 0.70) / 0.30, 0.0, 1.0) * 80.0

@@ -16,7 +16,75 @@ import numpy as np
 import pandas as pd
 
 
-def preprocess_lake_series(df, baseline_end="2024-12-31"):
+def compute_baseline_stats(df, baseline_end="2024-12-31"):
+    """
+    Computes glaciological baseline statistics strictly on data <= baseline_end.
+    These parameters are fixed during model training and reused at inference time
+    to guarantee zero future data leakage.
+    """
+    d = df.copy()
+    d["window"] = pd.to_datetime(d["window"])
+    baseline_ts = pd.Timestamp(baseline_end)
+    train_mask = d["window"] <= baseline_ts
+    train_data = d[train_mask] if train_mask.any() else d
+
+    # Lake Area statistics
+    area_train = train_data["lake_area_km2"].dropna()
+    has_area = len(area_train) >= 15
+    if has_area:
+        area_min = float(area_train.quantile(0.05))
+        area_max = float(area_train.quantile(0.98))
+        area_med = float(area_train.median())
+    else:
+        area_min, area_max, area_med = 0.0, 1.0, 0.5
+
+    # Thermal seasonal statistics
+    m = train_data["window"].dt.month
+    therm_med = train_data.groupby(m)["thermal_index"].median()
+    therm_std = train_data.groupby(m)["thermal_index"].std().replace(0, np.nan).fillna(15.0)
+
+    # Radar statistics
+    vv_train = train_data["vv_db"].dropna()
+    if len(vv_train) >= 15:
+        vv_med = float(vv_train.median())
+        vv_std = float(vv_train.std()) or 1.0
+    else:
+        vv_med, vv_std = -10.0, 1.0
+
+    # Glacier dynamics statistics
+    vel_train = train_data.get("velocity_trend", pd.Series(dtype=float)).dropna()
+    if len(vel_train) >= 15 and vel_train.std() > 0:
+        vel_mean, vel_std = float(vel_train.mean()), float(vel_train.std())
+    else:
+        vel_mean, vel_std = 0.0, 1.0
+
+    acc_train = train_data.get("velocity_accel", pd.Series(dtype=float)).dropna()
+    if len(acc_train) >= 15 and acc_train.std() > 0:
+        acc_mean, acc_std = float(acc_train.mean()), float(acc_train.std()) or 1.0
+    else:
+        acc_mean, acc_std = 0.0, 1.0
+
+    # Observation difference residual
+    obs_res = float(np.nanstd(train_data["lake_area_km2"].diff())) if train_data["lake_area_km2"].notna().sum() > 10 else 0.05
+    obs_res = max(obs_res, 0.03)
+
+    return {
+        "area_min": area_min,
+        "area_max": area_max,
+        "area_med": area_med,
+        "therm_med": therm_med,
+        "therm_std": therm_std,
+        "vv_med": vv_med,
+        "vv_std": vv_std,
+        "vel_mean": vel_mean,
+        "vel_std": vel_std,
+        "acc_mean": acc_mean,
+        "acc_std": acc_std,
+        "obs_res": obs_res,
+    }
+
+
+def preprocess_lake_series(df, baseline_end="2024-12-31", baseline_stats=None):
     """
     Transforms raw 10-day satellite window observations into clean, causal, 
     glaciologically-grounded time-series features.
@@ -24,6 +92,7 @@ def preprocess_lake_series(df, baseline_end="2024-12-31"):
     Parameters:
         df: DataFrame containing at least 'window', 'lake_area_km2', 'vv_db', 'thermal_index'
         baseline_end: Date string for training baseline end (strictly causal, prevents data leakage)
+        baseline_stats: Pre-computed baseline statistics dictionary from training
         
     Returns:
         DataFrame with enriched glaciological signals and data confidence indicators.
@@ -44,25 +113,15 @@ def preprocess_lake_series(df, baseline_end="2024-12-31"):
         else:
             d[c] = np.nan
 
-    # 1. Baseline statistics computed strictly up to baseline_end (no future leakage)
-    baseline_ts = pd.Timestamp(baseline_end)
-    train_mask = d["window"] <= baseline_ts
-    train_data = d[train_mask] if train_mask.any() else d
+    # 1. Baseline statistics (learned during training or strictly <= baseline_end)
+    if baseline_stats is None:
+        baseline_stats = compute_baseline_stats(d, baseline_end=baseline_end)
     
-    # Lake Area statistics
-    area_train = train_data["lake_area_km2"].dropna()
-    has_area = len(area_train) >= 15
-    if has_area:
-        area_min = float(area_train.quantile(0.05))
-        area_max = float(area_train.quantile(0.98))
-        area_med = float(area_train.median())
-    else:
-        area_min, area_max, area_med = 0.0, 1.0, 0.5
-        
-    # Thermal seasonal statistics (monthly median and MAD/std)
-    m = train_data["window"].dt.month
-    therm_med = train_data.groupby(m)["thermal_index"].median()
-    therm_std = train_data.groupby(m)["thermal_index"].std().replace(0, np.nan).fillna(15.0)
+    area_min = baseline_stats["area_min"]
+    area_max = baseline_stats["area_max"]
+    area_med = baseline_stats["area_med"]
+    therm_med = baseline_stats["therm_med"]
+    therm_std = baseline_stats["therm_std"]
 
     # 2. Causal Data Reconstruction (Forward State Tracking)
     # Optical area can be clouded for 1-3 windows in monsoon.
@@ -129,23 +188,19 @@ def preprocess_lake_series(df, baseline_end="2024-12-31"):
     d["thermal_surge_30d"] = d["thermal_index"].diff(3).round(1)
 
     # F. Radar Moraine Dynamics
-    vv_train = train_data["vv_db"].dropna()
-    if len(vv_train) >= 15:
-        vv_med = vv_train.median()
-        vv_std = vv_train.std() or 1.0
-        d["vv_dev"] = ((d["vv_db"] - vv_med) / vv_std).round(2)
-    else:
-        d["vv_dev"] = 0.0
+    vv_med = baseline_stats.get("vv_med", -10.0)
+    vv_std = baseline_stats.get("vv_std", 1.0) or 1.0
+    d["vv_dev"] = ((d["vv_db"] - vv_med) / vv_std).round(2)
     d["vv_diff_10d"] = d["vv_db"].diff(1).round(2)
 
     # G. Hanging Glacier Velocity & Dynamic Instability
-    vel_train = train_data["velocity_trend"].dropna()
-    if len(vel_train) >= 15 and vel_train.std() > 0:
-        d["vel_trend_z"] = ((d["velocity_trend"] - vel_train.mean()) / vel_train.std()).round(2)
-        acc_train = train_data["velocity_accel"].dropna()
-        d["vel_accel_z"] = ((d["velocity_accel"] - acc_train.mean()) / (acc_train.std() or 1.0)).round(2)
-    else:
-        d["vel_trend_z"] = 0.0
-        d["vel_accel_z"] = 0.0
+    vel_mean = baseline_stats.get("vel_mean", 0.0)
+    vel_std = baseline_stats.get("vel_std", 1.0) or 1.0
+    d["vel_trend_z"] = ((d["velocity_trend"] - vel_mean) / vel_std).round(2)
 
+    acc_mean = baseline_stats.get("acc_mean", 0.0)
+    acc_std = baseline_stats.get("acc_std", 1.0) or 1.0
+    d["vel_accel_z"] = ((d["velocity_accel"] - acc_mean) / acc_std).round(2)
+
+    d.attrs["baseline_stats"] = baseline_stats
     return d

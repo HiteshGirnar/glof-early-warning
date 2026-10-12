@@ -130,6 +130,7 @@ def _lake_top(pct):
 def fit(train_df):
     """Learn 'normal' from train_df only (callers pass windows <= TRAIN_END)."""
     stats = seasonal_stats(train_df)
+    prep_baseline = P.compute_baseline_stats(train_df, baseline_end=C.TRAIN_END)
     f = build_features(train_df, stats)
     models = _fit_group_models(f)
     refs = {}
@@ -141,7 +142,7 @@ def fit(train_df):
     top, k = _lake_top(pct)
     ref_lake = {n: np.sort(top[k == n].dropna().values) for n in (1, 2)}
     ref_lake["all"] = np.sort(top[k > 0].dropna().values)
-    return {"models": models, "stats": stats, "refs": refs, "ref_lake": ref_lake}
+    return {"models": models, "stats": stats, "refs": refs, "ref_lake": ref_lake, "prep_baseline": prep_baseline}
 
 
 def score(df, art):
@@ -178,8 +179,12 @@ def score(df, art):
     out["anomaly_risk_pct"] = anomaly_risk.round(1).values
 
     # Glaciological Data Preprocessing & GLOF Prediction Engine
-    prep = P.preprocess_lake_series(df, baseline_end=C.TRAIN_END)
-    predictor = GP.GLOFPredictor(watch_threshold=C.WATCH_PCT, alert_threshold=C.ALERT_PCT)
+    prep = P.preprocess_lake_series(df, baseline_stats=art.get("prep_baseline"))
+    predictor = GP.GLOFPredictor(
+        watch_threshold=C.WATCH_PCT,
+        alert_threshold=C.ALERT_PCT,
+        baseline_stats=art.get("prep_baseline")
+    )
     glof_pred = predictor.predict(prep)
 
     out["glof_threat_pct"] = glof_pred["glof_threat_pct"].values
