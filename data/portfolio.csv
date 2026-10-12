@@ -1,43 +1,43 @@
 lake_id,name,latest_window,risk_pct,risk_level,glof_threat_pct,pre_breach_hazard,drainage_score,capacity_ratio,lead_time_window,area_fc_30d,main_driver,signals_used,max_risk_last_60d,live_windows,live_share_above_watch,has_area_signal,fetch_ready
-cwc_sk11_sikkim,Cwc Sk11 Sikkim,2026-09-28,100.0,Alert,14.6,14.6,0.0,0.714,Stable Baseline,0.4663,radar,2,100.0,64,36,True,False
-cwc_sk8_sikkim,Cwc Sk8 Sikkim,2026-09-28,100.0,Alert,60.1,60.1,0.0,1.03,Elevated Monitoring Window,0.492,Moderate Seasonal Expansion / Melt,2,100.0,64,38,True,False
+cwc_sk11_sikkim,Cwc Sk11 Sikkim,2026-09-28,100.0,Alert,14.6,14.6,0.0,0.714,Stable Baseline,0.4663,radar,2,100.0,64,36,True,True
+cwc_sk8_sikkim,Cwc Sk8 Sikkim,2026-09-28,100.0,Alert,60.1,60.1,0.0,1.03,Elevated Monitoring Window,0.492,Moderate Seasonal Expansion / Melt,2,100.0,64,38,True,True
 gurudongmar_lake4,Gurudongmar Lake 4,2026-09-28,100.0,Alert,60.0,45.0,0.0,1.043,Elevated Monitoring Window,1.0493,Moderate Seasonal Expansion / Melt,2,100.0,64,45,True,True
-shako_cho,Shako Cho,2026-09-28,100.0,Alert,60.0,49.2,0.0,1.026,Elevated Monitoring Window,0.5501,Moderate Seasonal Expansion / Melt,2,100.0,64,33,True,False
+shako_cho,Shako Cho,2026-09-28,100.0,Alert,60.0,49.2,0.0,1.026,Elevated Monitoring Window,0.5501,Moderate Seasonal Expansion / Melt,2,100.0,64,33,True,True
 south_lhonak,South Lhonak,2026-09-28,100.0,Alert,60.0,31.0,0.0,0.774,15-30d Early Warning Window,2.0439,Rapid Expansion Surge (+38% in 30d),2,100.0,64,47,True,True
-cwc_sk16_sikkim,Cwc Sk16 Sikkim,2026-09-28,98.9,Alert,1.4,1.4,0.0,0.542,Stable Baseline,0.4177,radar,1,98.9,63,25,True,False
-khangchung_tso,Khangchung Tso,2026-09-28,98.9,Alert,85.0,0.0,85.0,0.195,Immediate Breach / Outburst,0.2352,Catastrophic Breach Drainage,1,98.9,62,32,True,False
-cwc_sk4_sikkim,Cwc Sk4 Sikkim,2026-09-28,98.8,Alert,60.0,41.9,0.0,0.975,Elevated Monitoring Window,1.2305,Moderate Seasonal Expansion / Melt,2,98.8,64,22,True,False
-cwc_sk5_sikkim,Cwc Sk5 Sikkim,2026-09-28,98.6,Alert,60.0,45.0,0.0,1.076,Elevated Monitoring Window,1.2979,Moderate Seasonal Expansion / Melt,2,98.6,64,38,True,False
-samudra_tapu,Samudra Tapu,2026-09-28,98.0,Alert,98.0,0.2,98.0,0.507,Immediate Breach / Outburst,1.0108,Catastrophic Breach Drainage,1,98.0,64,42,True,False
-tso_lhamo,Tso Lhamo,2026-09-28,97.9,Alert,70.0,0.0,70.0,0.302,Elevated Monitoring Window,0.4174,Moderate Seasonal Expansion / Melt,1,98.0,63,32,True,False
-cwc_sk19_sikkim,Cwc Sk19 Sikkim,2026-09-28,97.0,Alert,12.9,12.9,0.0,0.705,Stable Baseline,0.6284,radar,2,97.0,64,44,True,False
-ndma433_kinnaur,Ndma433 Kinnaur,2026-09-28,91.1,Watch,2.6,2.6,0.0,0.566,Stable Baseline,0.039,area,1,100.0,62,24,True,False
-ndma441_spiti,Ndma441 Spiti,2026-09-28,87.8,Watch,0.0,0.0,0.0,0.083,Stable Baseline,0.01,area,1,87.8,62,23,True,False
-sccc_satluj,Sccc Satluj,2026-09-18,82.1,Watch,0.0,0.0,0.0,0.291,Stable Baseline,0.0287,radar,3,82.1,63,10,True,False
-cwc_sk9_sikkim,Cwc Sk9 Sikkim,2026-09-28,80.6,Watch,60.0,52.0,0.0,1.002,Elevated Monitoring Window,2.1126,Moderate Seasonal Expansion / Melt,1,80.6,64,20,True,False
-sccc_ravi,Sccc Ravi,2026-09-28,77.4,Low,44.2,35.6,0.0,0.923,Elevated Monitoring Window,0.1128,radar,1,95.0,64,27,True,False
-ndma081_baspa,Ndma081 Baspa,2026-09-18,76.9,Low,60.0,34.4,0.0,0.797,15-30d Early Warning Window,0.1408,Rapid Expansion Surge (+27% in 30d),3,87.2,63,16,True,False
-ndma078_ravi,Ndma078 Ravi,2026-09-28,74.1,Low,0.0,0.0,0.0,0.147,Stable Baseline,0.016,radar,1,90.7,64,31,True,False
-gepang_gath,Gepang Gath,2026-09-28,70.0,Low,70.0,70.0,0.0,1.078,15-45d Early Warning Window,1.1248,Critical Capacity Overfill (108%),1,100.0,64,45,True,False
-ndma435_bhaga,Ndma435 Bhaga,2026-09-28,70.0,Low,70.0,70.0,0.0,1.186,15-45d Early Warning Window,0.0949,Critical Capacity Overfill (119%),1,100.0,64,20,True,False
-changsang_sikkim,Changsang Sikkim,2026-09-28,66.5,Low,0.0,0.0,0.0,0.386,Stable Baseline,0.8163,radar,1,84.6,63,32,True,False
+cwc_sk16_sikkim,Cwc Sk16 Sikkim,2026-09-28,98.9,Alert,1.4,1.4,0.0,0.542,Stable Baseline,0.4177,radar,1,98.9,63,25,True,True
+khangchung_tso,Khangchung Tso,2026-09-28,98.9,Alert,85.0,0.0,85.0,0.195,Immediate Breach / Outburst,0.2352,Catastrophic Breach Drainage,1,98.9,62,32,True,True
+cwc_sk4_sikkim,Cwc Sk4 Sikkim,2026-09-28,98.8,Alert,60.0,41.9,0.0,0.975,Elevated Monitoring Window,1.2305,Moderate Seasonal Expansion / Melt,2,98.8,64,22,True,True
+cwc_sk5_sikkim,Cwc Sk5 Sikkim,2026-09-28,98.6,Alert,60.0,45.0,0.0,1.076,Elevated Monitoring Window,1.2979,Moderate Seasonal Expansion / Melt,2,98.6,64,38,True,True
+samudra_tapu,Samudra Tapu,2026-09-28,98.0,Alert,98.0,0.2,98.0,0.507,Immediate Breach / Outburst,1.0108,Catastrophic Breach Drainage,1,98.0,64,42,True,True
+tso_lhamo,Tso Lhamo,2026-09-28,97.9,Alert,70.0,0.0,70.0,0.302,Elevated Monitoring Window,0.4174,Moderate Seasonal Expansion / Melt,1,98.0,63,32,True,True
+cwc_sk19_sikkim,Cwc Sk19 Sikkim,2026-09-28,97.0,Alert,12.9,12.9,0.0,0.705,Stable Baseline,0.6284,radar,2,97.0,64,44,True,True
+ndma433_kinnaur,Ndma433 Kinnaur,2026-09-28,91.1,Watch,2.6,2.6,0.0,0.566,Stable Baseline,0.039,area,1,100.0,62,24,True,True
+ndma441_spiti,Ndma441 Spiti,2026-09-28,87.8,Watch,0.0,0.0,0.0,0.083,Stable Baseline,0.01,area,1,87.8,62,23,True,True
+khecheopalri,Khecheopalri,2026-09-28,83.7,Watch,0.0,0.0,0.0,0.178,Stable Baseline,0.0256,radar,2,87.0,61,23,True,True
+sccc_satluj,Sccc Satluj,2026-09-18,82.1,Watch,0.0,0.0,0.0,0.291,Stable Baseline,0.0287,radar,3,82.1,63,10,True,True
+cwc_sk9_sikkim,Cwc Sk9 Sikkim,2026-09-28,80.6,Watch,60.0,52.0,0.0,1.002,Elevated Monitoring Window,2.1126,Moderate Seasonal Expansion / Melt,1,80.6,64,20,True,True
+sccc_ravi,Sccc Ravi,2026-09-28,77.4,Low,44.2,35.6,0.0,0.923,Elevated Monitoring Window,0.1128,radar,1,95.0,64,27,True,True
+ndma081_baspa,Ndma081 Baspa,2026-09-18,76.9,Low,60.0,34.4,0.0,0.797,15-30d Early Warning Window,0.1408,Rapid Expansion Surge (+27% in 30d),3,87.2,63,16,True,True
+ndma078_ravi,Ndma078 Ravi,2026-09-28,74.1,Low,0.0,0.0,0.0,0.147,Stable Baseline,0.016,radar,1,90.7,64,31,True,True
+gepang_gath,Gepang Gath,2026-09-28,70.0,Low,70.0,70.0,0.0,1.078,15-45d Early Warning Window,1.1248,Critical Capacity Overfill (108%),1,100.0,64,45,True,True
+ndma435_bhaga,Ndma435 Bhaga,2026-09-28,70.0,Low,70.0,70.0,0.0,1.186,15-45d Early Warning Window,0.0949,Critical Capacity Overfill (119%),1,100.0,64,20,True,True
+changsang_sikkim,Changsang Sikkim,2026-09-28,66.5,Low,0.0,0.0,0.0,0.386,Stable Baseline,0.8163,radar,1,84.6,63,32,True,True
 basudhara_tal,Basudhara Tal,2026-09-18,64.3,Low,15.2,15.2,0.0,0.73,Stable Baseline,0.1449,area,3,94.6,62,16,True,True
-suru_glacial_lake,Suru Glacial Lake,2026-09-18,60.0,Low,60.0,52.7,0.0,0.908,15-30d Early Warning Window,0.5061,Rapid Expansion Surge (+40% in 30d),3,71.7,62,23,True,False
-ndma077_parvati,Ndma077 Parvati,2026-09-18,60.0,Low,60.0,54.5,0.0,0.971,Elevated Monitoring Window,0.1259,Moderate Seasonal Expansion / Melt,3,60.0,63,22,True,False
-satopanth_tal,Satopanth Tal,2026-09-18,59.5,Low,0.0,0.0,0.0,0.064,Stable Baseline,0.0134,radar,2,59.5,61,20,False,False
-khecheopalri,Khecheopalri,2026-06-30,59.3,Low,0.0,0.0,0.0,0.074,Stable Baseline,0.0204,radar,2,73.2,52,19,True,True
-ndma443_spiti,Ndma443 Spiti,2026-09-18,58.7,Low,0.0,0.0,0.0,0.047,Stable Baseline,0.0111,radar,2,100.0,61,26,False,False
-cwc_jk187_ladakh,Cwc Jk187 Ladakh,2026-09-28,58.2,Low,13.5,13.5,0.0,0.678,Stable Baseline,0.3602,area,1,85.0,64,30,True,False
-mundiksar_lake,Mundiksar Lake,2026-09-28,58.2,Low,58.2,45.0,0.0,1.162,Elevated Monitoring Window,0.4774,Moderate Seasonal Expansion / Melt,1,82.8,64,38,True,False
-cwc_jk197_ladakh,Cwc Jk197 Ladakh,2026-09-18,58.1,Low,50.8,42.7,0.0,0.982,Elevated Monitoring Window,0.9392,Moderate Seasonal Expansion / Melt,2,93.4,63,22,True,False
-kausar_nag,Kausar Nag,2026-09-18,56.0,Low,12.4,12.4,0.0,0.645,Stable Baseline,1.1376,thermal,3,98.0,63,44,True,False
-ndma442_spiti,Ndma442 Spiti,2026-09-18,54.6,Low,0.0,0.0,0.0,0.5,Stable Baseline,0.5,thermal,2,91.6,61,21,False,False
-sccc_beas_34,Sccc Beas 34,2026-09-18,53.8,Low,0.0,0.0,0.0,0.02,Stable Baseline,0.01,area,3,54.6,59,20,True,False
-chandratal,Chandratal,2026-09-18,47.7,Low,0.0,0.0,0.0,0.5,Stable Baseline,0.5,thermal,2,52.5,63,27,False,False
-ndma444_bhaga,Ndma444 Bhaga,2026-09-18,45.4,Low,0.0,0.0,0.0,0.5,Stable Baseline,0.5,thermal,2,61.1,63,14,False,False
-sccc_beas_28,Sccc Beas 28,2026-09-18,43.5,Low,0.0,0.0,0.0,0.0,Stable Baseline,0.0108,thermal,2,82.2,61,30,True,False
-ndma436_chandra,Ndma436 Chandra,2026-09-18,39.2,Low,0.4,0.4,0.0,0.517,Stable Baseline,0.0528,thermal,3,56.3,62,24,True,False
-ndma437_chandra,Ndma437 Chandra,2026-09-18,37.2,Low,13.3,13.3,0.0,0.709,Stable Baseline,0.085,thermal,3,65.5,63,19,True,False
-shaushar_lake,Shaushar Lake,2026-09-28,32.3,Low,0.0,0.0,0.0,0.036,Stable Baseline,0.0996,radar,1,58.2,62,27,True,False
-ndma434_miyar,Ndma434 Miyar,2026-09-28,24.0,Low,0.0,0.0,0.0,0.5,Stable Baseline,0.5,radar,1,58.9,62,11,False,False
-ndma438_spiti,Ndma438 Spiti,2026-09-28,17.4,Low,0.0,0.0,0.0,0.492,Stable Baseline,0.0385,area,1,70.5,64,20,True,False
+suru_glacial_lake,Suru Glacial Lake,2026-09-18,60.0,Low,60.0,52.7,0.0,0.908,15-30d Early Warning Window,0.5061,Rapid Expansion Surge (+40% in 30d),3,71.7,62,23,True,True
+ndma077_parvati,Ndma077 Parvati,2026-09-18,60.0,Low,60.0,54.5,0.0,0.971,Elevated Monitoring Window,0.1259,Moderate Seasonal Expansion / Melt,3,60.0,63,22,True,True
+satopanth_tal,Satopanth Tal,2026-09-18,59.5,Low,0.0,0.0,0.0,0.064,Stable Baseline,0.0134,radar,2,59.5,61,20,False,True
+ndma443_spiti,Ndma443 Spiti,2026-09-18,58.7,Low,0.0,0.0,0.0,0.047,Stable Baseline,0.0111,radar,2,100.0,61,26,False,True
+cwc_jk187_ladakh,Cwc Jk187 Ladakh,2026-09-28,58.2,Low,13.5,13.5,0.0,0.678,Stable Baseline,0.3602,area,1,85.0,64,30,True,True
+mundiksar_lake,Mundiksar Lake,2026-09-28,58.2,Low,58.2,45.0,0.0,1.162,Elevated Monitoring Window,0.4774,Moderate Seasonal Expansion / Melt,1,82.8,64,38,True,True
+cwc_jk197_ladakh,Cwc Jk197 Ladakh,2026-09-18,58.1,Low,50.8,42.7,0.0,0.982,Elevated Monitoring Window,0.9392,Moderate Seasonal Expansion / Melt,2,93.4,63,22,True,True
+kausar_nag,Kausar Nag,2026-09-18,56.0,Low,12.4,12.4,0.0,0.645,Stable Baseline,1.1376,thermal,3,98.0,63,44,True,True
+ndma442_spiti,Ndma442 Spiti,2026-09-18,54.6,Low,0.0,0.0,0.0,0.5,Stable Baseline,0.5,thermal,2,91.6,61,21,False,True
+sccc_beas_34,Sccc Beas 34,2026-09-18,53.8,Low,0.0,0.0,0.0,0.02,Stable Baseline,0.01,area,3,54.6,59,20,True,True
+chandratal,Chandratal,2026-09-18,47.7,Low,0.0,0.0,0.0,0.5,Stable Baseline,0.5,thermal,2,52.5,63,27,False,True
+ndma444_bhaga,Ndma444 Bhaga,2026-09-18,45.4,Low,0.0,0.0,0.0,0.5,Stable Baseline,0.5,thermal,2,61.1,63,14,False,True
+sccc_beas_28,Sccc Beas 28,2026-09-18,43.5,Low,0.0,0.0,0.0,0.0,Stable Baseline,0.0108,thermal,2,82.2,61,30,True,True
+ndma436_chandra,Ndma436 Chandra,2026-09-18,39.2,Low,0.4,0.4,0.0,0.517,Stable Baseline,0.0528,thermal,3,56.3,62,24,True,True
+ndma437_chandra,Ndma437 Chandra,2026-09-18,37.2,Low,13.3,13.3,0.0,0.709,Stable Baseline,0.085,thermal,3,65.5,63,19,True,True
+shaushar_lake,Shaushar Lake,2026-09-28,32.3,Low,0.0,0.0,0.0,0.036,Stable Baseline,0.0996,radar,1,58.2,62,27,True,True
+ndma434_miyar,Ndma434 Miyar,2026-09-28,24.0,Low,0.0,0.0,0.0,0.5,Stable Baseline,0.5,radar,1,58.9,62,11,False,True
+ndma438_spiti,Ndma438 Spiti,2026-09-28,17.4,Low,0.0,0.0,0.0,0.492,Stable Baseline,0.0385,area,1,70.5,64,20,True,True

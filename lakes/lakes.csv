@@ -1,43 +1,43 @@
 lake_id,name,region,lon,lat,half_km,bbox,seed_lon,seed_lat,tile,s1_orbit_state,s1_rel_orbit,min_area,event_windows,event_label,setup_status
 basudhara_tal,Basudhara Tal,Uttarakhand,79.747,30.9031,1.5,,,,44RLV,ascending,56,0.0925,,,"verified: tile 44RLV, track ascending 56"
-chandratal,Chandratal,,,,,,,,,,,,,,needs lon/lat
-changsang_sikkim,Changsang Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
-cwc_jk187_ladakh,Cwc Jk187 Ladakh,Ladakh,,,,,,,,,,,,,needs lon/lat
-cwc_jk197_ladakh,Cwc Jk197 Ladakh,Ladakh,,,,,,,,,,,,,needs lon/lat
-cwc_sk11_sikkim,Cwc Sk11 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
-cwc_sk16_sikkim,Cwc Sk16 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
-cwc_sk19_sikkim,Cwc Sk19 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
-cwc_sk4_sikkim,Cwc Sk4 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
-cwc_sk5_sikkim,Cwc Sk5 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
-cwc_sk8_sikkim,Cwc Sk8 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
-cwc_sk9_sikkim,Cwc Sk9 Sikkim,Sikkim,,,,,,,,,,,,,needs lon/lat
-gepang_gath,Gepang Gath,,,,,,,,,,,,,,needs lon/lat
+chandratal,Chandratal,Himachal Pradesh,77.6156,32.4824,1.5,,,,43SGS,ascending,27,,,,"verified: tile 43SGS, track ascending 27"
+changsang_sikkim,Changsang Sikkim,Sikkim,88.2094,27.9158,1.5,,,,45RXL,ascending,12,0.08,,,"verified: tile 45RXL, track ascending 12"
+cwc_jk187_ladakh,Cwc Jk187 Ladakh,Ladakh,77.35,34.82,1.5,,,,43SGU,ascending,129,0.1513,,,"verified: tile 43SGU, track ascending 129"
+cwc_jk197_ladakh,Cwc Jk197 Ladakh,Ladakh,76.22,34.15,1.5,,,,43SFT,ascending,27,0.3569,,,"verified: tile 43SFT, track ascending 27"
+cwc_sk11_sikkim,Cwc Sk11 Sikkim,Sikkim,88.718,28.035,1.5,,,,45RXM,ascending,12,0.2107,,,"verified: tile 45RXM, track ascending 12"
+cwc_sk16_sikkim,Cwc Sk16 Sikkim,Sikkim,88.642,27.885,1.5,,,,45RXL,ascending,12,0.1923,,,"verified: tile 45RXL, track ascending 12"
+cwc_sk19_sikkim,Cwc Sk19 Sikkim,Sikkim,88.775,28.005,1.5,,,,45RXM,ascending,12,0.2207,,,"verified: tile 45RXM, track ascending 12"
+cwc_sk4_sikkim,Cwc Sk4 Sikkim,Sikkim,88.205,27.948,1.5,,,,45RXM,ascending,12,0.4247,,,"verified: tile 45RXM, track ascending 12"
+cwc_sk5_sikkim,Cwc Sk5 Sikkim,Sikkim,88.225,27.935,1.5,,,,45RXL,ascending,12,0.348,,,"verified: tile 45RXL, track ascending 12"
+cwc_sk8_sikkim,Cwc Sk8 Sikkim,Sikkim,88.685,27.962,1.5,,,,45RXM,ascending,12,0.1401,,,"verified: tile 45RXM, track ascending 12"
+cwc_sk9_sikkim,Cwc Sk9 Sikkim,Sikkim,88.71,28.016,1.5,,,,45RXM,ascending,12,0.5568,,,"verified: tile 45RXM, track ascending 12"
+gepang_gath,Gepang Gath,Himachal Pradesh,77.2201,32.5248,1.5,,,,43SGS,ascending,27,0.75,,,"verified: tile 43SGS, track ascending 27"
 gurudongmar_lake4,Gurudongmar Lake 4,Sikkim,88.711,28.026,1.5,,,,45RXM,ascending,12,0.1,,,"verified: tile 45RXM, track ascending 12"
-kausar_nag,Kausar Nag,,,,,,,,,,,,,,needs lon/lat
-khangchung_tso,Khangchung Tso,,,,,,,,,,,,,,needs lon/lat
-khecheopalri,Khecheopalri,Sikkim,88.1886,27.3500,1.5,,,,45RXL,ascending,12,0.02,,,"verified: tile 45RXL, track ascending 12"
-mundiksar_lake,Mundiksar Lake,,,,,,,,,,,,,,needs lon/lat
-ndma077_parvati,Ndma077 Parvati,Parvati,,,,,,,,,,,,,needs lon/lat
-ndma078_ravi,Ndma078 Ravi,Ravi,,,,,,,,,,,,,needs lon/lat
-ndma081_baspa,Ndma081 Baspa,Baspa,,,,,,,,,,,,,needs lon/lat
-ndma433_kinnaur,Ndma433 Kinnaur,Kinnaur,,,,,,,,,,,,,needs lon/lat
-ndma434_miyar,Ndma434 Miyar,Miyar,,,,,,,,,,,,,needs lon/lat
-ndma435_bhaga,Ndma435 Bhaga,Bhaga,,,,,,,,,,,,,needs lon/lat
-ndma436_chandra,Ndma436 Chandra,Chandra,,,,,,,,,,,,,needs lon/lat
-ndma437_chandra,Ndma437 Chandra,Chandra,,,,,,,,,,,,,needs lon/lat
-ndma438_spiti,Ndma438 Spiti,Spiti,,,,,,,,,,,,,needs lon/lat
-ndma441_spiti,Ndma441 Spiti,Spiti,,,,,,,,,,,,,needs lon/lat
-ndma442_spiti,Ndma442 Spiti,Spiti,,,,,,,,,,,,,needs lon/lat
-ndma443_spiti,Ndma443 Spiti,Spiti,,,,,,,,,,,,,needs lon/lat
-ndma444_bhaga,Ndma444 Bhaga,Bhaga,,,,,,,,,,,,,needs lon/lat
-samudra_tapu,Samudra Tapu,,,,,,,,,,,,,,needs lon/lat
-satopanth_tal,Satopanth Tal,,,,,,,,,,,,,,needs lon/lat
-sccc_beas_28,Sccc Beas 28,Beas,,,,,,,,,,,,,needs lon/lat
-sccc_beas_34,Sccc Beas 34,Beas,,,,,,,,,,,,,needs lon/lat
-sccc_ravi,Sccc Ravi,Ravi,,,,,,,,,,,,,needs lon/lat
-sccc_satluj,Sccc Satluj,Satluj,,,,,,,,,,,,,needs lon/lat
-shako_cho,Shako Cho,,,,,,,,,,,,,,needs lon/lat
-shaushar_lake,Shaushar Lake,,,,,,,,,,,,,,needs lon/lat
-south_lhonak,South Lhonak,Sikkim,,,,"88.18,27.89,88.22,27.93",88.1836,27.9144,45RXL,ascending,12,0.5,2023-09-28,GLOF 4 Oct 2023,"verified: fetch matches CSV (area 1.56425 km2, 23 Jan 2023)"
-suru_glacial_lake,Suru Glacial Lake,,,,,,,,,,,,,,needs lon/lat
-tso_lhamo,Tso Lhamo,,,,,,,,,,,,,,needs lon/lat
+kausar_nag,Kausar Nag,Jammu and Kashmir,74.7688,33.5123,1.5,,,,43SDT,ascending,100,0.3732,,,"verified: tile 43SDT, track ascending 100"
+khangchung_tso,Khangchung Tso,Sikkim,88.815,27.9883,1.5,,,,45RXM,ascending,114,0.0675,,,"verified: tile 45RXM, track ascending 114"
+khecheopalri,Khecheopalri,Sikkim,88.1886,27.35,1.5,,,,45RXL,ascending,12,0.02,,,"verified: tile 45RXL, track ascending 12"
+mundiksar_lake,Mundiksar Lake,Jammu and Kashmir,76.1179,33.8705,1.5,,,,43SFT,ascending,27,0.1616,,,"verified: tile 43SFT, track ascending 27"
+ndma077_parvati,Ndma077 Parvati,Himachal Pradesh,77.5254,31.9144,1.5,,,,43SGR,ascending,27,0.0301,,,"verified: tile 43SGR, track ascending 27"
+ndma078_ravi,Ndma078 Ravi,Himachal Pradesh,76.7774,32.2559,1.5,,,,43SFR,ascending,27,0.0097,,,"verified: tile 43SFR, track ascending 27"
+ndma081_baspa,Ndma081 Baspa,Himachal Pradesh,78.2531,31.3386,1.5,,,,44RKV,ascending,129,0.0512,,,"verified: tile 44RKV, track ascending 129"
+ndma433_kinnaur,Ndma433 Kinnaur,Himachal Pradesh,78.35,31.45,1.5,,,,44RKV,ascending,129,0.0102,,,"verified: tile 44RKV, track ascending 129"
+ndma434_miyar,Ndma434 Miyar,Himachal Pradesh,76.88,32.78,1.5,,,,43SFS,ascending,27,0.604,,,"verified: tile 43SFS, track ascending 27"
+ndma435_bhaga,Ndma435 Bhaga,Himachal Pradesh,77.307,32.6308,1.5,,,,43SGS,ascending,27,0.0207,,,"verified: tile 43SGS, track ascending 27"
+ndma436_chandra,Ndma436 Chandra,Himachal Pradesh,77.6175,32.6044,1.5,,,,43SGS,ascending,27,0.017,,,"verified: tile 43SGS, track ascending 27"
+ndma437_chandra,Ndma437 Chandra,Himachal Pradesh,77.4128,32.7218,1.5,,,,43SGS,ascending,27,0.0214,,,"verified: tile 43SGS, track ascending 27"
+ndma438_spiti,Ndma438 Spiti,Himachal Pradesh,78.4156,31.9647,1.5,,,,44SKA,ascending,129,0.0203,,,"verified: tile 44SKA, track ascending 129"
+ndma441_spiti,Ndma441 Spiti,Himachal Pradesh,77.9422,32.525,1.5,,,,44SKB,ascending,129,0.0041,,,"verified: tile 44SKB, track ascending 129"
+ndma442_spiti,Ndma442 Spiti,Himachal Pradesh,77.384,32.7212,1.5,,,,43SGS,ascending,27,,,,"verified: tile 43SGS, track ascending 27"
+ndma443_spiti,Ndma443 Spiti,Himachal Pradesh,77.9119,32.6096,1.5,,,,44SKB,ascending,129,0.0101,,,"verified: tile 44SKB, track ascending 129"
+ndma444_bhaga,Ndma444 Bhaga,Himachal Pradesh,77.3292,32.7228,1.5,,,,43SGS,ascending,27,,,,"verified: tile 43SGS, track ascending 27"
+samudra_tapu,Samudra Tapu,Himachal Pradesh,77.5464,32.4986,1.5,,,,43SGS,ascending,129,0.5678,,,"verified: tile 43SGS, track ascending 129"
+satopanth_tal,Satopanth Tal,Uttarakhand,79.3567,30.7436,1.5,,,,44RLV,ascending,129,0.01,,,"verified: tile 44RLV, track ascending 129"
+sccc_beas_28,Sccc Beas 28,Himachal Pradesh,77.7897,31.8486,1.5,,,,43SGR,ascending,129,0.0104,,,"verified: tile 43SGR, track ascending 129"
+sccc_beas_34,Sccc Beas 34,Himachal Pradesh,77.538,31.8991,1.5,,,,43SGR,ascending,27,0.0107,,,"verified: tile 43SGR, track ascending 27"
+sccc_ravi,Sccc Ravi,Himachal Pradesh,76.7533,32.2334,1.5,,,,43SFR,ascending,27,0.0405,,,"verified: tile 43SFR, track ascending 27"
+sccc_satluj,Sccc Satluj,Himachal Pradesh,78.7509,31.5533,1.5,,,,44SKA,ascending,129,0.0101,,,"verified: tile 44SKA, track ascending 129"
+shako_cho,Shako Cho,Sikkim,88.6161,27.9747,1.5,,,,45RXM,ascending,12,0.2234,,,"verified: tile 45RXM, track ascending 12"
+shaushar_lake,Shaushar Lake,Ladakh,75.085,34.425,1.5,,,,43SEU,descending,34,0.0318,,,"verified: tile 43SEU, track descending 34"
+south_lhonak,South Lhonak,Sikkim,88.1836,27.9144,1.5,"88.18,27.89,88.22,27.93",88.1836,27.9144,45RXL,ascending,12,0.5,2023-09-28,GLOF 4 Oct 2023,"verified: fetch matches CSV (area 1.56425 km2, 23 Jan 2023)"
+suru_glacial_lake,Suru Glacial Lake,Ladakh,76.574,33.835,1.5,,,,43SFT,descending,136,0.1501,,,"verified: tile 43SFT, track descending 136"
+tso_lhamo,Tso Lhamo,Sikkim,88.75,28.03,1.5,,,,45RXM,ascending,12,0.2684,,,"verified: tile 45RXM, track ascending 12"

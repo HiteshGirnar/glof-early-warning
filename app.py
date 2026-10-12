@@ -41,8 +41,8 @@ with st.sidebar:
     can_fetch = bool(C.BBOX is not None and C.TILE is not None)
 
     if can_fetch:
-        st.write("Fetch finished 10-day Sentinel windows from Planetary Computer and re-score.")
-        if st.button("🛰️ Fetch latest satellite data", width="stretch"):
+        st.write(f"Fetch finished 10-day Sentinel windows from Planetary Computer for **{C.LAKE_NAME}** and re-score.")
+        if st.button("🛰️ Fetch latest satellite data (Active lake)", width="stretch"):
             try:
                 import pipeline
                 bar = st.progress(0.0, text="Connecting to Planetary Computer...")
@@ -54,11 +54,7 @@ with st.sidebar:
                 st.error(f"Satellite update failed: {e}")
                 st.caption("Planetary Computer may rate-limit or fail without internet. Stored windows are preserved.")
     else:
-        st.info(f"ℹ️ **{C.LAKE_NAME}** does not have satellite coordinates configured in `lakes/lakes.csv`. "
-                f"Live satellite fetch is ready for **South Lhonak**, **Basudhara Tal**, **Khecheopalri**, and **Gurudongmar Lake 4**.")
-        if st.button("👉 Switch to South Lhonak (Fetch Ready)", width="stretch"):
-            C.use("south_lhonak")
-            st.rerun()
+        st.info(f"ℹ️ **{C.LAKE_NAME}** does not have satellite coordinates configured in `lakes/lakes.csv`.")
 
     st.write("Re-run physics-guided data preprocessor and GLOF prediction model on stored windows.")
     if st.button("⚡ Re-score with GLOF Prediction Engine", width="stretch"):
